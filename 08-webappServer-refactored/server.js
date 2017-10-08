@@ -2,14 +2,17 @@ var http = require('http'),
 	dataParser = require('./dataParser'),
 	serveStatic = require('./serveStatic'),
 	calculatorReqHandler = require('./calculatorReqHandler'),
-	notFoundHandler = require('./notFoundHandler');
+	notFoundHandler = require('./notFoundHandler'),
+	app = require('./app');
 
+
+app.use(dataParser);
+app.use(serveStatic);
+app.use(calculatorReqHandler);
+app.use(notFoundHandler);
 
 var server = http.createServer(function(req, res){
-	dataParser(req);
-	serveStatic(req, res);
-	calculatorReqHandler(req, res);
-	notFoundHandler(res);
+	app(req, res);
 });
 
 server.listen(8080);
