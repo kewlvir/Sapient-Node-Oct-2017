@@ -5,26 +5,23 @@ var taskService = require('../services/taskService');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  
   var viewModel = {
   	taskList : taskService.getAll()
   };
-  res.render('tasks/index', viewModel);
+  res.json(viewModel);
 });
 
-router.get('/new', function(req, res, next){
-	res.render('tasks/new');
-});
 
 router.post('/new', function(req, res, next){
-	taskService.addNew(req.body.newTaskName);
-	res.redirect('/tasks');
+	var newTask = taskService.addNew(req.body.newTaskName);
+	res.json(newTask)
 });
 
 router.get('/toggle/:id', function(req, res, next){
 	var taskId = parseInt(req.params.id, 10);
-	taskService.toggle(taskId);
-	res.redirect('/tasks');
+	var toggledTask = taskService.toggle(taskId);
+	res.json(toggledTask);
+	
 });
 
 module.exports = router;
